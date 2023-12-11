@@ -11,9 +11,11 @@ import { SylCommon, useTheme } from '@src/theme'
 import { IState, AppObject } from '@src/types'
 import { linking } from '@src/utils'
 import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import { NativeModules, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { Footer, HeaderButton, ProfileCard, SetStatusBar, TableList, TableRow } from '../components'
+
+const { ClickstreamAnalytics } = NativeModules
 const My = ({
   navigation,
   app,
@@ -48,6 +50,19 @@ const My = ({
             containerStyle={[{ marginRight: theme.dimensions.layoutContainerHorizontalMargin }]}
             text={translate('common.more')}
             onPress={() => {
+              console.log('click_user_more')
+              ClickstreamAnalytics.recordEvent('button_click', {
+                location: 'user_more',
+                profile_url: profile?.url
+              })
+
+              ClickstreamAnalytics.addGlobalAttributes({
+                user_name: 'test_username',
+                test_global_attribute: 'test_global_attribute_value'
+              })
+              ClickstreamAnalytics.deleteGlobalAttributes(['test_global_attribute', 'location'])
+              ClickstreamAnalytics.disable()
+              ClickstreamAnalytics.enable()
               navigation.navigate(ROUTES.WebViewer, { url: profile?.url })
             }}
           />

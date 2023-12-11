@@ -1,0 +1,13 @@
+{
+  "analytics": {
+    "plugins": {
+      "awsClickstreamPlugin": {
+        "appId": "v2ex",
+        "endpoint": "http://example.com/collect",
+        "isCompressEvents": true,
+        "autoFlushEventsInterval": 10000,
+        "isTrackAppExceptionEvents": false
+      }
+    }
+  }
+}
